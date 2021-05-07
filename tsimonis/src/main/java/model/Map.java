@@ -6,6 +6,8 @@ import model.annotations.NotContainsNull;
 import model.enums.Direction;
 import model.exceptions.MapException;
 
+import java.util.Arrays;
+
 public class Map {
     @Min(1)
     private final int size;
@@ -40,22 +42,13 @@ public class Map {
     }
 
     public void moveHero(Coordinates coordinates, Direction direction) {
-        int currX = coordinates.getX();
-        int currY = coordinates.getY();
-        Coordinates currCoordinates = direction.getCoordinates();
-        int newX = currX + currCoordinates.getX();
-        int newY = currY + currCoordinates.getY();
-        if (newX < 0 || newX >= this.size || newY < 0 || newY >= this.size ||
-                currX < 0 || currX >= this.size || currY < 0 || currY >= this.size) {
-            throw new MapException("Can't move hero to a new position {" + newX + ", " + newY + "}, " +
-                    "because coordinates are incorrect");
-        }
-        if (this.map[newX][newY] != null) {
-            throw new MapException("Can't move hero to a new position {" + newX + ", " + newY + "}, " +
+        Coordinates newCoordinates = direction.getCoordinates();
+        if (getHero(newCoordinates) != null) {
+            throw new MapException("Can't move hero to a new position {" + newCoordinates + "}, " +
                     "because there is already a hero");
         }
-        this.map[newY][newX] = this.map[currY][currX];
-        this.map[currY][currX] = null;
+        setHero(getHero(coordinates), newCoordinates);
+        setHero(null, coordinates);
         Utils.validate(this);
     }
 
@@ -65,5 +58,16 @@ public class Map {
 
     public Hero[][] getMap() {
         return map;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                stringBuilder.append("[" + "H" + "]");
+            }
+        }
+        return stringBuilder.toString();
     }
 }
