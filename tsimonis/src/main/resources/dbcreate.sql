@@ -1,0 +1,24 @@
+SET GLOBAL time_zone = '+3:00';
+
+CREATE DATABASE IF NOT EXISTS swingy CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS hero (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    name CHAR(32) NOT NULL,
+    level MEDIUMINT NOT NULL,
+    experience FLOAT NOT NULL,
+    hp FLOAT NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS artefact (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    type CHAR(32) NOT NULL,
+    attack FLOAT NOT NULL,
+    defense FLOAT NOT NULL,
+    hp FLOAT NOT NULL,
+    hero_id BIGINT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (hero_id) REFERENCES hero(id) ON DELETE CASCADE
+);
+

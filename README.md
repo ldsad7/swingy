@@ -1,6 +1,11 @@
 The file `en.subject.pdf` describes the task
 
-Steps (run shell scripts from the root directory):
+Steps (run from the `tsimonis` directory):
+- `brew install maven`
+- `mvn clean package`
+- `mysql -uUSER -p` > `enter password`
+- `SET GLOBAL time_zone = '+3:00';` (MSK timezone)
+
 - `sh clean.sh`
 - `sh run.sh`
 

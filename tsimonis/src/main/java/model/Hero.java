@@ -73,6 +73,12 @@ public class Hero {
         return level;
     }
 
+    public Hero setLevel(int level) {
+        this.level = level;
+        Utils.validate(this);
+        return this;
+    }
+
     public double getExperience() {
         return experience;
     }
@@ -87,20 +93,8 @@ public class Hero {
         return attack;
     }
 
-    public Hero setAttack(double attack) {
-        this.attack = attack;
-        Utils.validate(this);
-        return this;
-    }
-
     public double getDefense() {
         return defense;
-    }
-
-    public Hero setDefense(double defense) {
-        this.defense = defense;
-        Utils.validate(this);
-        return this;
     }
 
     public double getHp() {
@@ -167,11 +161,6 @@ public class Hero {
             hero.defense = heroClass.getDefence();
             hero.artefacts = heroClass.getArtefacts();
             hero.heroClass = heroClass;
-            return this;
-        }
-
-        public Builder setLevel(int level) {
-            hero.level = level;
             return this;
         }
 

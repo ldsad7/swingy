@@ -1,7 +1,10 @@
 package model.enums;
 
 import com.google.common.collect.Sets;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import model.Artefact;
 import model.Utils;
 import model.annotations.NotContainsNull;
@@ -54,6 +57,18 @@ public enum HeroClass {
     @NotNull
     @NotContainsNull
     private final Set<Artefact> artefacts;
+
+    private static final Map<String, HeroClass> BY_NAME = new HashMap<>();
+
+    static {
+        for (HeroClass heroclass : values()) {
+            BY_NAME.put(heroclass.name, heroclass);
+        }
+    }
+
+    public static HeroClass getByName(String name) {
+        return BY_NAME.get(name);
+    }
 
     HeroClass(String name, double attack, double defence, Set<Artefact> artefacts) {
         this.name = name;

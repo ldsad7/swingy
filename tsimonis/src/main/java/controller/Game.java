@@ -3,12 +3,18 @@ package controller;
 import model.Coordinates;
 import model.Hero;
 import model.Map;
+import model.enums.Color;
 import model.enums.HeroClass;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.Console;
 import java.util.Scanner;
+
+import static model.Utils.getColorString;
 
 public class Game extends JPanel implements ActionListener {
     private static final int MODULO = 3;
@@ -26,12 +32,14 @@ public class Game extends JPanel implements ActionListener {
 
     public static Hero createHero(Scanner scanner) {
         HeroClass[] heroClasses = HeroClass.values();
+        System.out.println(Color.GREEN.getColor());
         for (int i = 1; i <= heroClasses.length; i++) {
             System.out.println(i + ". " + heroClasses[i - 1]);
         }
+        System.out.println(Color.ENDC.getColor());
         int heroNum = -1;
         while (heroNum <= 0 || heroNum > heroClasses.length) {
-            System.out.println("Choose a hero: ");
+            System.out.println(getColorString("Choose a hero: ", Color.CYAN));
             heroNum = readInt(scanner);
         }
         return Hero.createHero(heroClasses[heroNum - 1]);
@@ -48,7 +56,7 @@ public class Game extends JPanel implements ActionListener {
         try {
             returnInt = Integer.parseInt(line);
         } catch (NumberFormatException e) {
-            System.out.println("Incorrect number '" + line + "' received");
+            System.out.println(getColorString("Incorrect number '" + line + "' received", Color.RED));
         }
         return returnInt;
     }
@@ -64,9 +72,8 @@ public class Game extends JPanel implements ActionListener {
     public static void main(String[] args) {
         Console console = System.console();
         try (Scanner scanner = new Scanner(System.in)) {
-            System.out.println("What do you want:\n" +
-                    "1. Create a hero\n" +
-                    "2. Select a previously created hero");
+            System.out.println(getColorString(
+                    "What do you want:\n1. Create a hero\n2. Select a previously created hero", Color.CYAN));
             int result = -1;
             while (result <= 0 || result > 2) {
                 result = readInt(scanner);
@@ -77,7 +84,7 @@ public class Game extends JPanel implements ActionListener {
             } else {
                 hero = selectPreviousHero(scanner);
             }
-            System.out.println("Chosen hero: " + hero);
+            System.out.println(getColorString("Chosen hero: " + hero, Color.CYAN));
             Map map = createRandomMap(hero);
             int size = map.getSize();
             Coordinates heroCoordinates = new Coordinates(size / 2, size / 2);
@@ -85,11 +92,9 @@ public class Game extends JPanel implements ActionListener {
 //            addKeyListener(new TAdapter());
             while (true) {
                 map.printMap(heroCoordinates);
-                System.out.println("Where do you want to move:\n" +
-                        "1. North\n" +
-                        "2. West\n" +
-                        "3. East\n" +
-                        "4. South");
+                System.out.println(getColorString(
+                        "Where do you want to move:\n1. North (w)\n2. West (a)\n3. East (d)\n4. South (s)",
+                        Color.CYAN));
                 String line = nextLine(scanner);
             }
         }
@@ -111,6 +116,11 @@ public class Game extends JPanel implements ActionListener {
         }
     }
 
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+
+    }
+
     private static class TAdapter extends KeyAdapter {
 //
 //        @Override
@@ -122,10 +132,5 @@ public class Game extends JPanel implements ActionListener {
         public void keyPressed(KeyEvent e) {
             keyPressed(e);
         }
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-
     }
 }

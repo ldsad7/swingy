@@ -9,6 +9,8 @@ import model.exceptions.MapException;
 
 import java.util.Arrays;
 
+import static model.Utils.getColorString;
+
 public class Map {
     @Min(1)
     private final int size;
@@ -68,11 +70,11 @@ public class Map {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (y == i && x == j) {
-                    stringBuilder.append(Color.RED.getColor()).append("[H]").append(Color.ENDC.getColor());
+                    stringBuilder.append(getColorString("[H]", Color.RED));
                 } else if (map[i][j] == null) {
-                    stringBuilder.append("[O]");
+                    stringBuilder.append(getColorString("[O]", Color.BOLD));
                 } else {
-                    stringBuilder.append(Color.BLUE.getColor()).append("[H]").append(Color.ENDC.getColor());
+                    stringBuilder.append(getColorString("[H]", Color.BLUE));
                 }
             }
             stringBuilder.append("\n");
