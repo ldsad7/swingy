@@ -9,11 +9,9 @@ import model.enums.HeroClass;
 import model.exceptions.HeroException;
 
 import java.util.Objects;
-import java.util.Random;
 import java.util.Set;
 
 public class Hero {
-    private static final Random RANDOM = new Random();
     private static long idCounter;
 
     @Min(1)
@@ -50,10 +48,12 @@ public class Hero {
     }
 
     public static Hero getRandomHero() {
-        HeroClass heroClass = HeroClass.getRandomHeroClass();
+        return createHero(HeroClass.getRandomHeroClass());
+    }
+
+    public static Hero createHero(HeroClass heroClass) {
         Hero hero = new Hero.Builder().setHeroClass(heroClass).build();
-        double experience = 1000 * RANDOM.nextDouble();
-        hero.setExperience(experience);
+        hero.setExperience(1000 * Utils.RANDOM.nextDouble());
         return hero;
     }
 

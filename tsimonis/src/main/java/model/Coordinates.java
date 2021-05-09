@@ -1,10 +1,8 @@
 package model;
 
 import java.util.Objects;
-import java.util.Random;
 
 public class Coordinates {
-    private static final Random RANDOM = new Random();
     private final int x;
     private final int y;
 
@@ -13,16 +11,16 @@ public class Coordinates {
         this.y = y;
     }
 
+    public static Coordinates getRandomCoordinates(int size) {
+        return new Coordinates(Utils.RANDOM.nextInt(size), Utils.RANDOM.nextInt(size));
+    }
+
     public int getX() {
         return x;
     }
 
     public int getY() {
         return y;
-    }
-
-    public static Coordinates getRandomCoordinates(int size) {
-        return new Coordinates(RANDOM.nextInt(size), RANDOM.nextInt(size));
     }
 
     @Override

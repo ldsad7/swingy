@@ -1,7 +1,6 @@
 package model.enums;
 
 import com.google.common.collect.Sets;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import model.Artefact;
 import model.Utils;
@@ -40,7 +39,6 @@ public enum HeroClass {
 
     private static final List<HeroClass> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
     private static final int SIZE = VALUES.size();
-    private static final Random RANDOM = new Random();
 
     @NotEmpty
     private final String name;
@@ -66,7 +64,7 @@ public enum HeroClass {
     }
 
     public static HeroClass getRandomHeroClass() {
-        return VALUES.get(RANDOM.nextInt(SIZE));
+        return VALUES.get(Utils.RANDOM.nextInt(SIZE));
     }
 
     public String getName() {
@@ -83,5 +81,16 @@ public enum HeroClass {
 
     public Set<Artefact> getArtefacts() {
         return artefacts;
+    }
+
+    @Override
+    public String toString() {
+        return "HeroClass{" +
+                "race='" + this.name() + '\'' +
+                ", name='" + name + '\'' +
+                ", attack=" + attack +
+                ", defence=" + defence +
+                ", artefacts=" + artefacts +
+                '}';
     }
 }

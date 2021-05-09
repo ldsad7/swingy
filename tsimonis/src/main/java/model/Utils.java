@@ -4,9 +4,11 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
+import java.util.Random;
 import java.util.Set;
 
 public class Utils {
+    public static final Random RANDOM = new Random();
     private final static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     public static void validate(Object object) {

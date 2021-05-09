@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = ChoicesValidator.class)
 @Documented
 public @interface Choices {
-    String message() default "The value is not in the list";
+    String message() default "{jakarta.validation.constraints.Choices.message}";
 
     Class<?>[] groups() default {};
 

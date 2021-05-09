@@ -3,6 +3,7 @@ package model;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import model.annotations.NotContainsNull;
+import model.enums.Color;
 import model.enums.Direction;
 import model.exceptions.MapException;
 
@@ -13,7 +14,6 @@ public class Map {
     private final int size;
 
     @NotNull
-    @NotContainsNull
     private final Hero[][] map;
 
     public Map(int level) {
@@ -41,7 +41,7 @@ public class Map {
         Utils.validate(this);
     }
 
-    public void moveHero(Coordinates coordinates, Direction direction) {
+    public Coordinates moveHero(Coordinates coordinates, Direction direction) {
         Coordinates newCoordinates = direction.getCoordinates();
         if (getHero(newCoordinates) != null) {
             throw new MapException("Can't move hero to a new position {" + newCoordinates + "}, " +
@@ -50,6 +50,7 @@ public class Map {
         setHero(getHero(coordinates), newCoordinates);
         setHero(null, coordinates);
         Utils.validate(this);
+        return newCoordinates;
     }
 
     public int getSize() {
@@ -60,14 +61,30 @@ public class Map {
         return map;
     }
 
-    @Override
-    public String toString() {
+    public void printMap(Coordinates heroCoordinates) {
+        int x = heroCoordinates.getX();
+        int y = heroCoordinates.getY();
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                stringBuilder.append("[" + "H" + "]");
+                if (y == i && x == j) {
+                    stringBuilder.append(Color.RED.getColor()).append("[H]").append(Color.ENDC.getColor());
+                } else if (map[i][j] == null) {
+                    stringBuilder.append("[O]");
+                } else {
+                    stringBuilder.append(Color.BLUE.getColor()).append("[H]").append(Color.ENDC.getColor());
+                }
             }
+            stringBuilder.append("\n");
         }
-        return stringBuilder.toString();
+        System.out.println(stringBuilder.toString());
+    }
+
+    @Override
+    public String toString() {
+        return "Map{" +
+                "size=" + size +
+                ", map=" + Arrays.toString(map) +
+                '}';
     }
 }
