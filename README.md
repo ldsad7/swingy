@@ -4,6 +4,7 @@ Steps (run from the `tsimonis` directory):
 - `brew install maven`
 - `mvn clean package`
 - `mysql -uUSER -p` > `enter password`
+- `CREATE DATABASE IF NOT EXISTS swingy CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`
 - `SET GLOBAL time_zone = '+3:00';` (MSK timezone)
 
 - `sh clean.sh`

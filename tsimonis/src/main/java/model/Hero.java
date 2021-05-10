@@ -8,6 +8,7 @@ import model.annotations.NotContainsNull;
 import model.enums.HeroClass;
 import model.exceptions.HeroException;
 
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
@@ -108,11 +109,17 @@ public class Hero {
     }
 
     public Set<Artefact> getArtefacts() {
-        return artefacts;
+        return Collections.unmodifiableSet(artefacts);
     }
 
     public Hero setArtefacts(Set<Artefact> artefacts) {
         this.artefacts = artefacts;
+        Utils.validate(this);
+        return this;
+    }
+
+    public Hero addArtefact(Artefact artefact) {
+        this.artefacts.add(artefact);
         Utils.validate(this);
         return this;
     }
