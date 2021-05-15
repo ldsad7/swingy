@@ -2,7 +2,6 @@ CREATE TABLE IF NOT EXISTS hero (
     id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(32) NOT NULL,
     level INT NOT NULL,
-    experience DOUBLE NOT NULL,
     hp DOUBLE NOT NULL
 );
 
@@ -13,4 +12,3 @@ CREATE TABLE IF NOT EXISTS artefact (
     hero_id INT,
     FOREIGN KEY (hero_id) REFERENCES hero(id)
 );
-

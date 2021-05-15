@@ -1,5 +1,7 @@
 package model;
 
+import model.enums.Direction;
+
 import java.util.Objects;
 
 public class Coordinates {
@@ -13,6 +15,21 @@ public class Coordinates {
 
     public static Coordinates getRandomCoordinates(int size) {
         return new Coordinates(Utils.RANDOM.nextInt(size), Utils.RANDOM.nextInt(size));
+    }
+
+    public boolean checkCoordinates(int size) {
+        if (x < 0 || x >= size || y < 0 || y >= size) {
+            return false;
+        }
+        return true;
+    }
+
+    public Coordinates addDirectionToCoordinates(Direction direction) {
+        Coordinates directionCoordinates = direction.getCoordinates();
+        return new Coordinates(
+                this.x + directionCoordinates.getX(),
+                this.y + directionCoordinates.getY()
+        );
     }
 
     public int getX() {

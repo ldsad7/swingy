@@ -64,4 +64,8 @@ public class Artefact {
                 ", value=" + value +
                 '}';
     }
+
+    public String prettyString() {
+        return String.format("%-8s | %-6f |", artefactType.getField(), value);
+    }
 }

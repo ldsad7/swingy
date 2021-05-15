@@ -1,5 +1,6 @@
 package model;
 
+import controller.Battle;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import model.annotations.NotContainsNull;
@@ -43,11 +44,11 @@ public class Map {
         Utils.validate(this);
     }
 
-    public Coordinates moveHero(Coordinates coordinates, Direction direction) {
-        Coordinates newCoordinates = direction.getCoordinates();
+    public Coordinates moveHero(Coordinates coordinates, Coordinates newCoordinates) {
         if (getHero(newCoordinates) != null) {
-            throw new MapException("Can't move hero to a new position {" + newCoordinates + "}, " +
-                    "because there is already a hero");
+            if (!Battle.makeBattle(getHero(coordinates), getHero(newCoordinates))) {
+                return null;
+            }
         }
         setHero(getHero(coordinates), newCoordinates);
         setHero(null, coordinates);
@@ -70,11 +71,11 @@ public class Map {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (y == i && x == j) {
-                    stringBuilder.append(getColorString("[H]", Color.RED));
-                } else if (map[i][j] == null) {
-                    stringBuilder.append(getColorString("[O]", Color.BOLD));
-                } else {
                     stringBuilder.append(getColorString("[H]", Color.BLUE));
+                } else if (map[i][j] == null) {
+                    stringBuilder.append(getColorString("[.]", Color.BOLD));
+                } else {
+                    stringBuilder.append(getColorString("[X]", Color.RED));
                 }
             }
             stringBuilder.append("\n");

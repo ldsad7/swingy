@@ -29,9 +29,6 @@ public class Hero {
     private int level = 1;
 
     @Min(0)
-    private double experience = 0;
-
-    @Min(0)
     private double attack;
 
     @Min(0)
@@ -45,6 +42,9 @@ public class Hero {
     @NotContainsNull
     private Set<Artefact> artefacts;
 
+    @Min(1)
+    private Integer dbId;
+
     private Hero() {
     }
 
@@ -53,9 +53,7 @@ public class Hero {
     }
 
     public static Hero createHero(HeroClass heroClass) {
-        Hero hero = new Hero.Builder().setHeroClass(heroClass).build();
-        hero.setExperience(1000 * Utils.RANDOM.nextDouble());
-        return hero;
+        return new Hero.Builder().setHeroClass(heroClass).build();
     }
 
     private long nextId() {
@@ -81,13 +79,7 @@ public class Hero {
     }
 
     public double getExperience() {
-        return experience;
-    }
-
-    public Hero setExperience(double experience) {
-        this.experience = experience;
-        Utils.validate(this);
-        return this;
+        return level * 1000 + (level - 1) * (level - 1) * 450;
     }
 
     public double getAttack() {
@@ -144,12 +136,37 @@ public class Hero {
                 ", name='" + name + '\'' +
                 ", heroClass=" + heroClass +
                 ", level=" + level +
-                ", experience=" + experience +
+                ", experience=" + getExperience() +
                 ", attack=" + attack +
                 ", defense=" + defense +
                 ", hp=" + hp +
                 ", artefacts=" + artefacts +
                 '}';
+    }
+
+    public String prettyString() {
+        StringBuilder result = new StringBuilder(String.format(
+                "Hero %16s | level %5s | exeprience %12s | hp %8s | attack %8s | defense %8s |\n" +
+                "%-21s | %-11d | %-23f | %-11f | %-15f | %-16f |\n",
+                "", "", "", "", "", "", name, level, getExperience(), hp, attack, defense
+        ));
+        if (!artefacts.isEmpty()) {
+            result.append("Artefacts: \n").append("field    | value     |\n");
+            for (Artefact artefact : artefacts) {
+                result.append(artefact.prettyString()).append("\n");
+            }
+        }
+        return result.toString();
+    }
+
+    public Integer getDbId() {
+        return dbId;
+    }
+
+    public Hero setDbId(Integer dbId) {
+        this.dbId = dbId;
+        Utils.validate(this);
+        return this;
     }
 
     public static class Builder {
